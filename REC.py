@@ -3,8 +3,9 @@
 # It must be compatible with raspbian and windows
 # I would like to rely on as few modules as possible
 
-import board
+
 import time
+import board
 import busio
 import adafruit_bmp3xx
 import adafruit_icm20x
@@ -31,22 +32,22 @@ def main():
     return None
 
 def determine_launch():
-    '''
+    """
     Will find the time of launch to be used in sorting data
-    '''
+    """
     return None
 
 def determine_landed():
-    '''
+    """
     Will find the time of landing to be used in ending recording
-    '''
+    """
     return None
 
 def get_bta():
-    '''
+    """
     This function will interact with bmp388 and return the barometric pressure and temperature detected by the
     sensor. It will also return the current altitude calculated by its built in altitude function
-    '''
+    """
 
     # b =  speak to bmp388 to get current data point
     # t =  speak to bmp388 to get current data point
@@ -67,10 +68,10 @@ def get_bta():
     # end test
 
 def get_accel_gyro():
-    '''
+    """
         This function will interact with icm20649 and return the accelerometer and gyro data detected by the
         sensor
-    '''
+    """
 
     a_x = pd.Series([], dtype = 'float64')
     a_y = pd.Series([], dtype = 'float64')
@@ -100,11 +101,11 @@ def get_accel_gyro():
     return a_x, a_y, a_z, g_x, g_y, g_z
 
 def mk_run_dir():
-    '''
+    """
     This function will find the current path to the Flight-Recorder program and make a new directory named "Date-Run-#".
     It will also create all sub directories needed to store all flight data for further calculations
     if the same date and # exist it will add 1 to the greatest number file found
-    '''
+    """
 
     file_num = 1
 
@@ -120,10 +121,10 @@ def mk_run_dir():
     return run_path
 
 def gather_store_data():
-    '''
+    """
     This function will gather the data and create a .csv file to save all the data into, each data type will have its own
     and column. Each consecutive data point will be stored in rows under their respective columns
-    '''
+    """
 
     run_path = mk_run_dir()
 

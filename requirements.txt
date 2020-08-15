@@ -1,0 +1,12 @@
+pandas~=1.1.0
+pathlib~=1.0.1
+DateTime~=4.3
+Adafruit-Blinka~=5.2.4
+adafruit-circuitpython-bmp3xx~=1.2.2
+adafruit-circuitpython-busdevice~=5.0.1
+adafruit-circuitpython-icm20x~=2.0.2
+adafruit-circuitpython-register~=1.9.0
+adafruit-io~=2.4.0
+Adafruit-PlatformDetect~=2.15.0
+Adafruit-PureIO~=1.1.5
+board~=1.0
