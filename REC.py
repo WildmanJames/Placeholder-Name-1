@@ -11,11 +11,8 @@ import logging
 # Gotta learn logging
 
 def main():
-    run_path = mk_run_dir()
 
-    for _ in range(10):
-        data = pd.DataFrame([1,2,3,4,5,6,7,8,9]) * _
-        store_data(run_path, data)
+    gather_store_data()
 
     # while not determine_landed():
     # figure out how to keep only data from 3 seconds before launch
@@ -44,18 +41,35 @@ def get_bta():
     # b =  speak to "--device--" to get current data point
     # t =  speak to "--device--" to get current data point
     # a =  speak to "--device--" to get current data point
-    return None
+
+    # test
+    b = pd.Series([], dtype = 'float64')
+    t = pd.Series([], dtype = 'float64')
+    a = pd.Series([], dtype = 'float64')
+    for _ in range(10):
+        b[_] = 2 * _
+        t[_] = 2 * _
+        a[_] = 2 * _
+    return b, t, a
 
 def get_accel():
     '''
-        This function will interact with the "--board--" and return the current accelerometer values detected by the
+        This function will interact with the "--board--" and return the accelerometer data detected by the
         sensor
     '''
     # x =  speak to "--device--" to get current data point
     # y =  speak to "--device--" to get current data point
     # z =  speak to "--device--" to get current data point
-    # Return x,y,z
-    return None
+
+    # test
+    x = pd.Series([], dtype = 'float64')
+    y = pd.Series([], dtype = 'float64')
+    z = pd.Series([], dtype = 'float64')
+    for _ in range(10):
+        x[_] = 2 * _
+        y[_] = 2 * _
+        z[_] = 2 * _
+    return x, y, z
 
 def get_gyro():
     '''
@@ -64,8 +78,16 @@ def get_gyro():
     # x =  speak to "--device--" to get current data point
     # y =  speak to "--device--" to get current data point
     # z =  speak to "--device--" to get current data point
-    # Return x,y,z
-    return None
+
+    # test
+    x = pd.Series([], dtype = 'float64')
+    y = pd.Series([], dtype = 'float64')
+    z = pd.Series([], dtype = 'float64')
+    for _ in range(10):
+        x[_] = 2 * _
+        y[_] = 2 * _
+        z[_] = 2 * _
+    return x, y, z
 
 def mk_run_dir():
     '''
@@ -75,8 +97,6 @@ def mk_run_dir():
     '''
 
     file_num = 1
-    print(pl.Path.cwd())
-    print(dt.date.today())
 
     while True:
         try:
@@ -86,23 +106,38 @@ def mk_run_dir():
             break
         except FileExistsError:
             file_num += 1
-
+    print(f'Folder Created, {folder_name} @ {run_path}')
     return run_path
 
-def store_data(run_path, data):
+def gather_store_data():
     '''
-    This function will create and append a .csv file to save all the data into, each data type will have its own title
+    This function will gather the data and create a .csv file to save all the data into, each data type will have its own
     and column. Each consecutive data point will be stored in rows under their respective columns
     '''
-    # This doesnt work and im not sure why yet
+
+    run_path = mk_run_dir()
+
+    b, t, a = get_bta()
+    a_x, a_y, a_z = get_accel()
+    g_x, g_y, g_z = get_gyro()
+
+    data_dict = {
+            "Barometric Pressure":b,
+            "Temperature":t,
+            "Altitude_B":a,
+            "Accelerometer_x":a_x,
+            "Accelerometer_y":a_y,
+            "Accelerometer_z":a_z,
+            "Gyroscope_x":g_x,
+            "Gyroscope_y":g_y,
+            "Gyroscope_z":g_z,
+        }
+    data = pd.DataFrame.from_dict(data_dict)
+    print(data)
     pd.DataFrame.to_csv(data,
-                        columns = ['Barometric Pressure', 'Temperature', 'altitude',
-                                   'Accelerometer-x', 'Accelerometer-y', 'Accelerometer-z',
-                                   'Gyroscope-x', 'Gyroscope-x', 'Gyroscope-x'],
                         path_or_buf = run_path / 'Run-Data',
-                        mode = 'a'
+                        mode = 'w'
                         )
-    print('data written')
 
     return None
 
