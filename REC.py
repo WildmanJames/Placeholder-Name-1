@@ -73,7 +73,7 @@ def get_accel():
 
 def get_gyro():
     '''
-        This function will interact with the "--board--" and return the current gyro values detected by the sensor
+        This function will interact with the "--board--" and return the gyro data detected by the sensor
     '''
     # x =  speak to "--device--" to get current data point
     # y =  speak to "--device--" to get current data point
@@ -106,7 +106,7 @@ def mk_run_dir():
             break
         except FileExistsError:
             file_num += 1
-    print(f'Folder Created, {folder_name} @ {run_path}')
+    # log print(f'Folder Created, {folder_name} @ {run_path}')
     return run_path
 
 def gather_store_data():
@@ -133,7 +133,7 @@ def gather_store_data():
             "Gyroscope_z":g_z,
         }
     data = pd.DataFrame.from_dict(data_dict)
-    print(data)
+
     pd.DataFrame.to_csv(data,
                         path_or_buf = run_path / 'Run-Data',
                         mode = 'w'
