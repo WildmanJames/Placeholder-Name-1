@@ -5,6 +5,7 @@
 
 
 import time
+# board is from adafruit-cyrcuitpython and will work on a rasp pi, there is no board for windows
 import board
 import busio
 import adafruit_bmp3xx
