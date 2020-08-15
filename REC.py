@@ -3,9 +3,12 @@
 # It must be compatible with raspbian and windows
 # I would like to rely on as few modules as possible
 
+# This program is intended for use with a raspberry 3 B+, BMP388 board, and ICM20629 board running with i2c
+
 
 import time
-# board is from adafruit-cyrcuitpython and will work on a rasp pi, there is no board for windows
+# board is from adafruit-cyrcuitpython and will work on a rasp pi, I cant find how to make it work for windows
+# without breaking something else
 import board
 import busio
 import adafruit_bmp3xx
