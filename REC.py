@@ -26,18 +26,18 @@ icm20649 = adafruit_icm20x.ICM20649(i2c)
 
 def main():
 
-    print('Program start!')
+    print('Program start----------')
 
     setup_boards()
 
-    gather_store_data()
+    determine_launch()
 
     # while not determine_landed():
     # figure out how to keep only data from 3 seconds before launch
     # perhaps log data from when program starts and determine time of launch, then sort the big csv and remove data
     # from before the launch
 
-    print('Program end!')
+    print('Program end----------')
 
     return None
 
@@ -56,12 +56,20 @@ def setup_boards():
     print('Initializing, please wait...')
     time.sleep(5)
 
-    print('Begin test!')
+    print('Beginning test...')
 
 def determine_launch():
     """
     Will find the time of launch to be used in sorting data
     """
+    #print('Waiting for launch...')
+    #while True:
+        #if icm20649.acceleration[0] or icm20649.acceleration[1] or icm20649.acceleration[2] >= 10:
+            #print('Launch!!!')
+            #gather_store_data()
+    print('Launch!!!')
+    gather_store_data()
+
     return None
 
 def determine_landed():
@@ -101,7 +109,9 @@ def get_data():
 
     # test
     start = time.time()
-    for _ in range(1000):
+    while True:
+        if time.time() >= (start + 60):
+            break
         a_x.append(icm20649.acceleration[0])
         a_y.append(icm20649.acceleration[1])
         a_z.append(icm20649.acceleration[2])
@@ -111,12 +121,11 @@ def get_data():
         b.append(bmp388.pressure)
         t.append(bmp388.temperature)
         a.append(bmp388.altitude)
-        print(_)
 
     print('End test!')
     end = time.time()
     duration = end - start
-    print(f'test took {duration} seconds to complete.')
+    print(f'Testing took {duration} seconds to complete.')
 
     return b, t, a, a_x, a_y, a_z, g_x, g_y, g_z
 
