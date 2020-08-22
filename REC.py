@@ -89,33 +89,29 @@ def get_data():
     # g_y =  speak to icm20649 to get current data point
     # g_z =  speak to icm20649 to get current data point
 
-    b = pd.Series([], dtype = 'float16')
-    t = pd.Series([], dtype = 'float16')
-    a = pd.Series([], dtype = 'float16')
-    a_x = pd.Series([], dtype = 'float16')
-    a_y = pd.Series([], dtype = 'float16')
-    a_z = pd.Series([], dtype = 'float16')
-    g_x = pd.Series([], dtype = 'float16')
-    g_y = pd.Series([], dtype = 'float16')
-    g_z = pd.Series([], dtype = 'float16')
+    b = []
+    t = []
+    a = []
+    a_x = []
+    a_y = []
+    a_z = []
+    g_x = []
+    g_y = []
+    g_z = []
 
     # test
     start = time.time()
-    _ = 0
-    while True:
-        a_x[_] = round(icm20649.acceleration[0], 4)
-        a_y[_] = round(icm20649.acceleration[1], 4)
-        a_z[_] = round(icm20649.acceleration[2], 4)
-        g_x[_] = round(icm20649.gyro[0], 4)
-        g_y[_] = round(icm20649.gyro[1], 4)
-        g_z[_] = round(icm20649.gyro[2], 4)
-        b[_] = round(bmp388.pressure, 4)
-        t[_] = round(bmp388.temperature, 4)
-        a[_] = round(bmp388.altitude, 4)
-        _ += 1
-        time.sleep(.005)
-        # print('Write...')
-        if _ is 100: break
+    for _ in range(1000):
+        a_x.append(icm20649.acceleration[0])
+        a_y.append(icm20649.acceleration[1])
+        a_z.append(icm20649.acceleration[2])
+        g_x.append(icm20649.gyro[0])
+        g_y.append(icm20649.gyro[1])
+        g_z.append(icm20649.gyro[2])
+        b.append(bmp388.pressure)
+        t.append(bmp388.temperature)
+        a.append(bmp388.altitude)
+        print(_)
 
     print('End test!')
     end = time.time()
