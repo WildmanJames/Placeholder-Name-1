@@ -22,9 +22,12 @@ i2c = busio.I2C(board.SCL, board.SDA)
 bmp388 = adafruit_bmp3xx.BMP3XX_I2C(i2c)
 icm20649 = adafruit_icm20x.ICM20649(i2c)
 
+
 # Gotta learn logging
 
 def main():
+
+    setup_boards()
 
     gather_store_data()
 
@@ -34,6 +37,22 @@ def main():
     # from before the launch
 
     return None
+
+def setup_boards():
+
+    global bmp388
+    global icm20649
+
+    # Ask for preasure at sea level or use gps to find it
+
+    bmp388.reset()
+    bmp388.sea_level_pressure = 1014.9
+
+    icm20649.reset()
+    icm20649.initialize()
+    time.sleep(5)
+
+
 
 def determine_launch():
     """
@@ -63,10 +82,14 @@ def get_bta():
 
     # test
 
-    for _ in range(10):
-        b[_] = 2 * _
-        t[_] = 2 * _
-        a[_] = 2 * _
+    _ = 0
+    while True:
+        b[_] = bmp388.pressure
+        t[_] = bmp388.temperature
+        a[_] = bmp388.altitude
+        _ += 1
+        time.sleep(0.1)
+        if _ is 100: break
     return b, t, a
 
     # end test
@@ -92,15 +115,17 @@ def get_accel_gyro():
     # g_z =  speak to icm20649 to get current data point
 
     # test
-
-    for _ in range(10):
-        a_x[_] = 2 * _
-        a_y[_] = 2 * _
-        a_z[_] = 2 * _
-        g_x[_] = 2 * _
-        g_y[_] = 2 * _
-        g_z[_] = 2 * _
-
+    _ = 0
+    while True:
+        a_x[_] = icm20649.acceleration[0]
+        a_y[_] = icm20649.acceleration[1]
+        a_z[_] = icm20649.acceleration[2]
+        g_x[_] = icm20649.gyro[0]
+        g_y[_] = icm20649.gyro[1]
+        g_z[_] = icm20649.gyro[2]
+        _ += 1
+        time.sleep(0.1)
+        if _ is 100: break
     # end test
     return a_x, a_y, a_z, g_x, g_y, g_z
 
