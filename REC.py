@@ -18,12 +18,11 @@ import pathlib as pl
 import datetime as dt
 import logging
 
+# Gotta learn logging
+
 i2c = busio.I2C(board.SCL, board.SDA)
 bmp388 = adafruit_bmp3xx.BMP3XX_I2C(i2c)
 icm20649 = adafruit_icm20x.ICM20649(i2c)
-
-
-# Gotta learn logging
 
 def main():
 
@@ -47,7 +46,7 @@ def setup_boards():
     global bmp388
     global icm20649
 
-    # Ask for preasure at sea level or use gps to find it
+    # Ask for pressure at sea level or use gps to find it
 
     bmp388.reset()
     bmp388.sea_level_pressure = 1014.9
@@ -115,7 +114,7 @@ def get_data():
         a[_] = round(bmp388.altitude, 4)
         _ += 1
         time.sleep(.005)
-        #print('Write...')
+        # print('Write...')
         if _ is 100: break
 
     print('End test!')
