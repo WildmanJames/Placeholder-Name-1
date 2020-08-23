@@ -132,7 +132,8 @@ def get_data(g_max, g_min):
         t.append(bmp388.temperature)
         a.append(bmp388.altitude)
 
-        # Determine if landed
+        # Determine if landed, this helps http://www.lunar.org/docs/LUNARclips/v5/v5n1/Accelerometers.html
+        # Not sure why it wont detect that is is not moving
         resultant = ((a_x[lt_index] ** 2) + (a_y[lt_index] ** 2) + (a_z[lt_index] ** 2)) ** 0.5
         landing_test.append(resultant)
 
